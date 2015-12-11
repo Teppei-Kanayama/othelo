@@ -75,7 +75,7 @@ def main():
             send.send_num([next_arg[0], next_arg[1]])
             #send.send_num(reverse_arg)
             print next_pos
-            print reverse_pos
+            #print reverse_pos
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
