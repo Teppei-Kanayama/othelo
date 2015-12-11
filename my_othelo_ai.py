@@ -48,14 +48,44 @@ class Board: # represent reversi board
                 return reverse_list
         return False
 
-def decide_next_pos(board):
+def find_next_pos(board):
     now_board = Board(board)
-    next_pos = [0, 0]
+    next_pos_list = []
     for y in range(8):
         for x in range(8):
             if now_board.validate_input(x, y):
-                next_pos = [x, y]
-    return next_pos
+                next_pos_list.append([x, y])
+    return next_pos_list
+
+def decide_next_pos(board):
+    
+    next_pos_list = find_next_pos(board)
+    if next_pos_list == []:
+        return [3, 3]
+    evaluation_value = np.zeros(len(next_pos_list))
+    for i, pos in enumerate(next_pos_list):
+        evaluation_value[i] = evaluation_function(board, pos)
+    return next_pos_list[np.argmax(evaluation_value)]
+
+def evaluation_function(board, one_of_pos):
+    evaluation_value = 0
+    reverse_list = decide_reverse_pos(board, one_of_pos)
+    reverse_list.append(one_of_pos)
+    for pos in reverse_list:
+        if pos == [0, 0] or pos == [0, 7] or pos == [7, 0] or pos == [7, 7]:
+            evaluation_value += 30
+        elif pos == [0, 1] or pos == [1, 0] or pos == [0, 6] or pos == [6, 0] or pos == [1, 7] or pos == [7, 1] or pos == [7, 6] or pos == [6, 7]:
+            evaluation_value -= 30
+        elif pos == [0, 2] or pos == [2, 0] or pos == [0, 5] or pos == [5, 0] or pos == [2, 2] or pos == [2, 5] or pos == [5, 2] or pos == [2, 7] or pos == [7, 2] or pos == [5, 5] or pos == [5, 7] or pos == [7, 5]:
+            evaluation_value += 0
+        elif pos == [1, 1] or pos == [1, 6] or pos == [6, 1] or pos == [6, 6]:
+            evaluation_value -= 15
+        elif pos == [1, 2] or pos == [2, 1] or pos == [1, 3] or pos == [3, 1] or pos == [1, 4] or pos == [4, 1] or pos == [1, 5] or pos == [5, 1] or pos == [2, 6] or pos == [6, 2] or pos == [3, 6] or pos == [6, 3] or pos == [4, 6] or pos == [6, 4] or pos == [5, 6] or pos == [6, 5]:
+            evaluation_value -= 3
+        else:
+            evaluation_value -= 1
+    return evaluation_value
+         
 
 def decide_reverse_pos(board, next_pos):
     reverse_list = []

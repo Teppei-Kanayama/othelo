@@ -5,8 +5,6 @@ import cv2
 import sys
 import my_othelo_ai as ai
 
-WIN_SIZE = 800
-edge_list = []
 WHITE = -1
 BLANK = 0
 BLACK = 1
@@ -14,11 +12,14 @@ BLACK = 1
 def nothing(x):
     pass
 
-def get_edgepos(event, x, y, flags, param):
-    if len(edge_list) < 4:
-        if event == cv2.EVENT_LBUTTONDOWN:
-            edge_list.append([x, y])
-            print x, y
+class Edge_list:
+    def __init__(self):
+        self.edge_list = []
+    def get_edgepos(self, event, x, y, flags, param):
+        if len(self.edge_list) < 4:
+            if event == cv2.EVENT_LBUTTONDOWN:
+                self.edge_list.append([x, y])
+                print x, y
 
 def get_average(img, center_pos, dx_max, dy_max):
     tmp = 0
@@ -39,8 +40,8 @@ def make_thresh(img_color, threshold):
     ret, img_thresh = cv2.threshold(img_gray, threshold, 255, cv2.THRESH_BINARY)
     return img_thresh
 
-def trans_pers(img, win_x = WIN_SIZE, win_y = WIN_SIZE):
-    pts1 = np.float32(edge_list)
+def trans_pers(img, edge_list, win_x, win_y):
+    pts1 = np.float32(edge_list.edge_list)
     pts2 = np.float32([[0, 0], [win_x, 0], [win_x, win_y], [0, win_y]])
     psp_mat = cv2.getPerspectiveTransform(pts1, pts2)
     return cv2.warpPerspective(img, psp_mat, (win_x, win_y))
@@ -80,7 +81,7 @@ def main():
     cv2.namedWindow('adjust_color')
     cv2.namedWindow('adjust_threshold')
     
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     cv2.setMouseCallback('src', get_edgepos)
     cv2.createTrackbar('H-min', 'adjust_color', 0, 180, nothing)
     cv2.createTrackbar('H-max', 'adjust_color', 0, 180, nothing)
