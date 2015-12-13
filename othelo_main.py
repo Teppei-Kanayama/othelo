@@ -1,26 +1,44 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 import numpy as np
 import cv2
 import perspective as pers
 import serial_send as send
 import my_othelo_ai as ai
-import inverse_kinematics as ik
+import my_ik as ik
 
 WIN_SIZE = 800
 WHITE = -1
 BLANK = 0
 BLACK = 1
+
+#position of othelo board
+X1 = 0
+Y1 = 10
+X2 = 10
+Y2 = 10
+
+#arms' length
+L1 = 10
+L2 = 10
             
 def main():
+    cap_num = 0
+    dev = '/dev/ttyACM0'
+    if len(sys.argv) > 1:
+        cap_num = int(sys.argv[1])
+    if len(sys.argv) > 2:
+        dev = sys.argv[2]
+        
     board = np.zeros([8, 8])
     phase = 0
     cv2.namedWindow('src')
     cv2.namedWindow('adjust_color')
     cv2.namedWindow('adjust_threshold')
     
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(cap_num)
     edge_list = pers.Edge_list()
     cv2.setMouseCallback('src', edge_list.get_edgepos)
     cv2.createTrackbar('H-min', 'adjust_color', 0, 180, pers.nothing)
@@ -70,9 +88,9 @@ def main():
             pers.print_board(board)
             next_pos = ai.decide_next_pos(board)
             #reverse_pos = ai.decide_reverse_pos(board, next_pos)
-            next_arg = ik.pos_to_arg(next_pos)
+            next_arg = ik.pos_to_arg(next_pos, X1, Y1, X2, Y2, L1, L2)
             #reverse_arg = ik.pos_to_arg(reverse_pos)
-            send.send_num([next_arg[0], next_arg[1]])
+            send.send_num([next_arg[0], next_arg[1]], dev)
             #send.send_num(reverse_arg)
             print next_pos
             #print reverse_pos
