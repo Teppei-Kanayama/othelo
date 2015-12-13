@@ -20,7 +20,7 @@ def main():
     cv2.namedWindow('adjust_color')
     cv2.namedWindow('adjust_threshold')
     
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     edge_list = pers.Edge_list()
     cv2.setMouseCallback('src', edge_list.get_edgepos)
     cv2.createTrackbar('H-min', 'adjust_color', 0, 180, pers.nothing)

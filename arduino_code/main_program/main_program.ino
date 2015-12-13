@@ -7,7 +7,7 @@ Servo servo[2];
 int CATCH_PIN = 6, RELEASE_PIN = 7;
 
 int home_pos[2] = {
-  0, 0
+  5, 5
 };
 
 void setup(){
@@ -46,7 +46,7 @@ void loop(){
       
       digitalWrite(CATCH_PIN, LOW);
       digitalWrite(RELEASE_PIN, HIGH);
-      delay(500);
+      delay(3000);
       
       digitalWrite(CATCH_PIN, LOW);
       digitalWrite(RELEASE_PIN, LOW);
