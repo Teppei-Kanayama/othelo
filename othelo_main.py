@@ -87,13 +87,13 @@ def main():
             pers.get_board_info(board, adjusted_color, adjusted_threshold, 10, 10)
             pers.print_board(board)
             next_pos = ai.decide_next_pos(board)
-            #reverse_pos = ai.decide_reverse_pos(board, next_pos)
-            next_arg = ik.pos_to_arg(next_pos, X1, Y1, X2, Y2, L1, L2)
-            #reverse_arg = ik.pos_to_arg(reverse_pos)
-            send.send_num([next_arg[0], next_arg[1]], dev)
-            #send.send_num(reverse_arg)
             print next_pos
-            #print reverse_pos
+            reverse_pos = pos = ai.decide_reverse_pos(board, next_pos)
+            pos.insert(0, next_pos)
+            print pos
+            arg = ik.pos_to_arg(pos, X1, Y1, X2, Y2, L1, L2)
+            print arg
+            send.send_num2(arg, dev)
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':

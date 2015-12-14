@@ -26,8 +26,11 @@ def calc_coord(x, y, x1, y1, x2, y2): #グローバル座標系におけるオ�
     e2 = np.array([[0, 1], [-1, 0]]).dot(e1) / 8
     return np.array([x1, y1]) + (x + 0.5) * e1 + (y + 0.5) * e2
 
-def pos_to_arg(pos, x1, y1, x2, y2, l1, l2): #グローバル座標系の原点はアームの原点に一致させておく
-    tmp = calc_coord(pos[0], pos[1], x1, y1, x2, y2)
-    return inverse_kinematics(tmp[0], tmp[1], 0, 0, l1, l2)
+def pos_to_arg(pos_list, x1, y1, x2, y2, l1, l2): #グローバル座標系の原点はアームの原点に一致させておく
+    ans = []
+    for pos in pos_list:
+        tmp = calc_coord(pos[0], pos[1], x1, y1, x2, y2)
+        ans.append(inverse_kinematics(tmp[0], tmp[1], 0, 0, l1, l2))
+    return ans
 #print calc_coord(0, 0, 0, 10, 10, 10)
 #print inverse_kinematics(0, 20, 0, 0, 10, 10)
