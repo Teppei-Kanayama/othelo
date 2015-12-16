@@ -12,6 +12,8 @@ int release_pos[2] = {
   170, 90
 };
 
+
+
 void setup(){
    Serial.begin(9600);
    servo[0].attach(8);
@@ -25,10 +27,41 @@ void setup(){
 }
 
 
+void pick_up(){
+  digitalWrite(CATCH_PIN, HIGH);
+  digitalWrite(RELEASE_PIN, LOW);
+  Serial.print("pick up\n");
+  return;
+}
+
+
+void relinquish(){
+  digitalWrite(CATCH_PIN, LOW);
+  digitalWrite(RELEASE_PIN, HIGH);
+  Serial.print("relinquish\n");
+  return;
+}
+
+void power_off(){
+  digitalWrite(CATCH_PIN, LOW);
+  digitalWrite(RELEASE_PIN, LOW);
+  Serial.print("power off\n");
+  return;
+}
+
+void drive_servo(int *val){
+  servo[0].write(val[0]);
+  servo[1].write(val[1]);
+  Serial.print("val[0] = ");
+  Serial.print(val[0]);
+  Serial.print(" and val[1] = ");
+  Serial.print(val[1]);
+  Serial.print('\n');
+}
+
 void loop(){
   int data_num;
   int phase = 0;
-  
   
   while((data_num = Serial.available()) >= 6){
     int val[2] = {0, 0};
@@ -36,90 +69,51 @@ void loop(){
       val[int(i/3)] += (Serial.read() - '0') * pow(10, 2 - i%3);  
     }
     if(phase == 0){
-      digitalWrite(CATCH_PIN, HIGH);
-      digitalWrite(RELEASE_PIN, LOW);
-      Serial.print("catch\n");
+
+      pick_up();
       delay(1000);
       
-      servo[0].write(val[0]);
-      servo[1].write(val[1]);
-      Serial.print("val[0] = ");
-      Serial.print(val[0]);
-      Serial.print(" and val[1] = ");
-      Serial.print(val[1]);
-      Serial.print('\n');
+      drive_servo(val);
       delay(500);
       
-      digitalWrite(CATCH_PIN, LOW);
-      digitalWrite(RELEASE_PIN, HIGH);
-      Serial.print("release\n");
+      relinquish();
       delay(3000);
       
-      digitalWrite(CATCH_PIN, LOW);
-      digitalWrite(RELEASE_PIN, LOW);
-      Serial.print("power off\n");
+      power_off();
       phase = 1;
+
     }else if(phase == 1){
-        servo[0].write(val[0]);
-        servo[1].write(val[1]);
-        Serial.print("val[0] = ");
-        Serial.print(val[0]);
-        Serial.print(" and val[1] = ");
-        Serial.print(val[1]);
-        Serial.print('\n');
+        
+        drive_servo(val);
         delay(500);
         
-        digitalWrite(CATCH_PIN, HIGH);
-        digitalWrite(RELEASE_PIN, LOW);
-        Serial.print("catch\n");
+        pick_up();
         delay(3000);
         
-        servo[0].write(release_pos[0]);
-        servo[1].write(release_pos[1]);
-        Serial.print("go to release_pos\n");
+        drive_servo(release_pos);
         delay(500);
         
-        digitalWrite(CATCH_PIN, LOW);
-        digitalWrite(RELEASE_PIN, HIGH);
-        Serial.print("release\n");
+        relinquish();
         delay(1000);
         
-        digitalWrite(CATCH_PIN, LOW);
-        digitalWrite(RELEASE_PIN, LOW);
-        Serial.print("power off\n");
+        power_off();
         
-        servo[0].write(home_pos[0]);
-        servo[1].write(home_pos[1]);
-        Serial.print("go to home_pos\n");
+        drive_servo(home_pos);
         
-        digitalWrite(CATCH_PIN, HIGH);
-        digitalWrite(RELEASE_PIN, LOW);
-        Serial.print("catch\n");
+        pick_up();
         delay(3000);
         
-        servo[0].write(val[0]);
-        servo[1].write(val[1]);
-        Serial.print("val[0] = ");
-        Serial.print(val[0]);
-        Serial.print(" and val[1] = ");
-        Serial.print(val[1]);
-        Serial.print('\n');
+        drive_servo(val);
         delay(500);
         
-        digitalWrite(CATCH_PIN, LOW);
-        digitalWrite(RELEASE_PIN, HIGH);
-        Serial.print("release\n");
+        relinquish();
         delay(1000);
         
-        digitalWrite(CATCH_PIN, LOW);
-        digitalWrite(RELEASE_PIN, LOW);
-        Serial.print("power off\n");
+        power_off();
       }
-      Serial.print("----------\n");
   }
   if(phase == 1){
-  servo[0].write(home_pos[0]);
-  servo[1].write(home_pos[1]);
-  Serial.print("go to home_pos\n");
+  drive_servo(home_pos);
+  Serial.print("----------\n");
   }
 }
