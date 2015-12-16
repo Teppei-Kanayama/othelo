@@ -87,6 +87,33 @@ void loop(){
         digitalWrite(CATCH_PIN, LOW);
         digitalWrite(RELEASE_PIN, LOW);
         Serial.print("power off\n");
+        
+        servo[0].write(home_pos[0]);
+        servo[1].write(home_pos[1]);
+        Serial.print("go to home_pos\n");
+        
+        digitalWrite(CATCH_PIN, HIGH);
+        digitalWrite(RELEASE_PIN, LOW);
+        Serial.print("catch\n");
+        delay(3000);
+        
+        servo[0].write(val[0]);
+        servo[1].write(val[1]);
+        Serial.print("val[0] = ");
+        Serial.print(val[0]);
+        Serial.print(" and val[1] = ");
+        Serial.print(val[1]);
+        Serial.print('\n');
+        delay(500);
+        
+        digitalWrite(CATCH_PIN, LOW);
+        digitalWrite(RELEASE_PIN, HIGH);
+        Serial.print("release\n");
+        delay(1000);
+        
+        digitalWrite(CATCH_PIN, LOW);
+        digitalWrite(RELEASE_PIN, LOW);
+        Serial.print("power off\n");
       }
       Serial.print("----------\n");
   }
