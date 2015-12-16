@@ -15,14 +15,14 @@ BLANK = 0
 BLACK = 1
 
 #position of othelo board
-X1 = 0
-Y1 = 10
-X2 = 10
-Y2 = 10
+X1 = -120
+Y1 = 330
+X2 = 120
+Y2 = 330
 
 #arms' length
-L1 = 10
-L2 = 10
+L1 = 180
+L2 = 150
             
 def main():
     cap_num = 0

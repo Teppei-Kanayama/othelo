@@ -31,11 +31,6 @@ def send_num2(nums, dev = '/dev/ttyACM0', baudrate = 9600): # nums = [[int num1,
                 num_str += str(int(num))
             
     ser = serial.Serial(dev, baudrate)
-    num_list = list(num_str)
-    for c in num_list:
-        print c
-        print type(c)
-        ser.write(c)
+    print num_str
+    ser.write(num_str)
     ser.close()
-
-#send_num(35, 23)

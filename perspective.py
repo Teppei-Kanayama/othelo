@@ -51,12 +51,11 @@ def get_board_info(board, adjusted_color, adjusted_threshold, dx, dy):
     y = 50
     for j in range(8):
         for i in range(8):
-            #cv2.circle(dst, (x, y), 5, (255, 0, 0), -1)
-            if get_average(adjusted_color, (x, y), dx, dy) > 200:
-                board[i][j] = BLANK
-            elif get_average(adjusted_threshold, (x, y), dx, dy) > 200:
+            if get_average(adjusted_threshold, (x, y), dx, dy) > 200:
                 board[i][j] = WHITE
-            elif get_average(adjusted_threshold, (x, y), dx, dy) < 50:
+            elif get_average(adjusted_color, (x, y), dx, dy) > 200:
+                board[i][j] = BLANK
+            else:
                 board[i][j] = BLACK
             x += 100
         x = 50
