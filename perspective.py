@@ -49,8 +49,8 @@ def trans_pers(img, edge_list, win_x, win_y):
 def get_board_info(board, adjusted_color, adjusted_threshold, dx, dy): 
     x = 50
     y = 50
-    for j in range(8):
-        for i in range(8):
+    for j in range(6):
+        for i in range(6):
             if get_average(adjusted_threshold, (x, y), dx, dy) > 200:
                 board[i][j] = WHITE
             elif get_average(adjusted_color, (x, y), dx, dy) > 200:
@@ -62,8 +62,8 @@ def get_board_info(board, adjusted_color, adjusted_threshold, dx, dy):
         y += 100
 
 def print_board(board):
-    for j in range(8):
-        for i in range(8):
+    for j in range(6):
+        for i in range(6):
             if (board[j][i] == BLANK):
                 sys.stdout.write('.  ')
             elif (board[j][i] == WHITE):

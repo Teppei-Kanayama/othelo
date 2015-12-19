@@ -10,7 +10,7 @@ class Board: # represent reversi board
         self.current = current # current player
         
     def validate_range(self, x, y): # validate input range
-        if x < 0 or x > 7 or y < 0 or y > 7:
+        if x < 0 or x > 5 or y < 0 or y > 5:
             return False
         return True
 
@@ -51,8 +51,8 @@ class Board: # represent reversi board
 def find_next_pos(board):
     now_board = Board(board)
     next_pos_list = []
-    for y in range(8):
-        for x in range(8):
+    for y in range(6):
+        for x in range(6):
             if now_board.validate_input(x, y):
                 next_pos_list.append([x, y])
     return next_pos_list
@@ -72,16 +72,12 @@ def evaluation_function(board, one_of_pos):
     reverse_list = decide_reverse_pos(board, one_of_pos)
     reverse_list.append(one_of_pos)
     for pos in reverse_list:
-        if pos == [0, 0] or pos == [0, 7] or pos == [7, 0] or pos == [7, 7]:
+        if pos == [0, 0] or pos == [0, 5] or pos == [5, 0] or pos == [5, 5]:
             evaluation_value += 30
-        elif pos == [0, 1] or pos == [1, 0] or pos == [0, 6] or pos == [6, 0] or pos == [1, 7] or pos == [7, 1] or pos == [7, 6] or pos == [6, 7]:
-            evaluation_value -= 30
-        elif pos == [0, 2] or pos == [2, 0] or pos == [0, 5] or pos == [5, 0] or pos == [2, 2] or pos == [2, 5] or pos == [5, 2] or pos == [2, 7] or pos == [7, 2] or pos == [5, 5] or pos == [5, 7] or pos == [7, 5]:
-            evaluation_value += 0
-        elif pos == [1, 1] or pos == [1, 6] or pos == [6, 1] or pos == [6, 6]:
-            evaluation_value -= 15
-        elif pos == [1, 2] or pos == [2, 1] or pos == [1, 3] or pos == [3, 1] or pos == [1, 4] or pos == [4, 1] or pos == [1, 5] or pos == [5, 1] or pos == [2, 6] or pos == [6, 2] or pos == [3, 6] or pos == [6, 3] or pos == [4, 6] or pos == [6, 4] or pos == [5, 6] or pos == [6, 5]:
-            evaluation_value -= 3
+        elif pos == [1, 0] or pos == [0, 1] or pos == [0, 4] or pos == [4, 0] or pos == [1, 5] or pos == [5, 1] or pos == [4, 5] or pos == [5, 4]:
+            evaluation_value -= 12
+        elif pos == [1, 1] or pos == [1, 4] or pos == [4, 1] or pos == [4, 4]:
+            evaluation_value -=15
         else:
             evaluation_value -= 1
     return evaluation_value

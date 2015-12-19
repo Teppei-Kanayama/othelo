@@ -9,7 +9,7 @@ import serial_send as send
 import my_othelo_ai as ai
 import inverse_kinematics as ik
 
-WIN_SIZE = 800
+WIN_SIZE = 600
 WHITE = -1
 BLANK = 0
 BLACK = 1
@@ -32,7 +32,7 @@ def main():
     if len(sys.argv) > 2:
         dev = sys.argv[2]
         
-    board = np.zeros([8, 8])
+    board = np.zeros([6, 6])
     phase = 0
     cv2.namedWindow('src')
     cv2.namedWindow('adjust_color')
@@ -66,11 +66,11 @@ def main():
             
         else:
             phase = 2
-            h_min = 54
-            h_max = 87
-            s_min = 90
-            s_max = 164
-            threshold = 118
+            #h_min = 54
+            #h_max = 87
+            #s_min = 90
+            #s_max = 164
+            #threshold = 118
             cv2.destroyWindow('adjust_color')
             cv2.destroyWindow('adjust_threshold')
             adjusted_color = pers.make_hsv(src, h_min, h_max, s_min, s_max)
