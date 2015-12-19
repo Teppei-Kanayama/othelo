@@ -7,7 +7,7 @@ import cv2
 import perspective as pers
 import serial_send as send
 import my_othelo_ai as ai
-import my_ik as ik
+import inverse_kinematics as ik
 
 WIN_SIZE = 800
 WHITE = -1
@@ -66,6 +66,11 @@ def main():
             
         else:
             phase = 2
+            h_min = 54
+            h_max = 87
+            s_min = 90
+            s_max = 164
+            threshold = 118
             cv2.destroyWindow('adjust_color')
             cv2.destroyWindow('adjust_threshold')
             adjusted_color = pers.make_hsv(src, h_min, h_max, s_min, s_max)
@@ -88,12 +93,12 @@ def main():
             pers.print_board(board)
             next_pos = ai.decide_next_pos(board)
             print next_pos
-            reverse_pos = pos = ai.decide_reverse_pos(board, next_pos)
-            pos.insert(0, next_pos)
-            print pos
-            arg = ik.pos_to_arg(pos, X1, Y1, X2, Y2, L1, L2)
+            #reverse_pos = pos = ai.decide_reverse_pos(board, next_pos)
+            #pos.insert(0, next_pos)
+            #print pos
+            arg = ik.pos_to_arg(next_pos)
             print arg
-            send.send_num2(arg, dev)
+            send.send_num2([arg], dev)
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':

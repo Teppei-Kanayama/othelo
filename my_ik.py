@@ -13,7 +13,7 @@ def inverse_kinematics(x, y, ox, oy, l1, l2):
     ans = [0, 0]
     for alpha in range(180):
         for beta in range(180):
-            j1 = ox - x + l1 * cos(alpha / 180. * pi) + l2 * cos(beta / 180. * pi)
+            j1 = ox - x + l1 * cos(alpha / 180. * pi) - l2 * cos(beta / 180. * pi)
             j2 = oy - y + l1 * sin(alpha / 180. * pi) + l2 * sin(beta / 180. * pi)
             j = pow(j1, 2) + pow(j2, 2)
             if j < j_min:

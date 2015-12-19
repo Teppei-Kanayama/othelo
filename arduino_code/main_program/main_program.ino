@@ -5,11 +5,11 @@ Servo servo[2];
 int CATCH_PIN = 6, RELEASE_PIN = 7;
 
 int home_pos[2] = {
-  0, 0
+  180, 90
 };
 
 int release_pos[2] = {
-  170, 90
+  90, 90
 };
 
 
@@ -51,7 +51,9 @@ void power_off(){
 
 void drive_servo(int *val){
   servo[0].write(val[0]);
+  delay(15);
   servo[1].write(val[1]);
+  delay(15);
   Serial.print("val[0] = ");
   Serial.print(val[0]);
   Serial.print(" and val[1] = ");
@@ -84,6 +86,7 @@ void loop(){
 
     }else if(phase == 1){
         
+        /*
         drive_servo(val);
         delay(500);
         
@@ -110,6 +113,7 @@ void loop(){
         delay(1000);
         
         power_off();
+        */
       }
   }
   if(phase == 1){
