@@ -96,9 +96,10 @@ def main():
             #reverse_pos = pos = ai.decide_reverse_pos(board, next_pos)
             #pos.insert(0, next_pos)
             #print pos
-            arg = ik.pos_to_arg(next_pos)
+            #arg = ik.pos_to_arg(pos) #パターン2
+            arg = ik.pos_to_arg([next_pos]) #パターン1
             print arg
-            send.send_num2([arg], dev)
+            send.send_num2(arg, dev)
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':

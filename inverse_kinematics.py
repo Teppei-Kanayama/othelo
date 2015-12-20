@@ -90,5 +90,8 @@ end_arg[5][3] =130
 end_arg[5][4] =130
 end_arg[5][5] =130
 
-def pos_to_arg(pos):
-    return [base_arg[pos[0]][pos[1]], end_arg[pos[0]][pos[1]]]
+def pos_to_arg(pos_list):
+    ans = []
+    for pos in pos_list:
+        ans.append([base_arg[pos[0]][pos[1]], end_arg[pos[0]][pos[1]]])
+    return ans
